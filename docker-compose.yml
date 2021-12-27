@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - $PWD/logs:/var/log/dokeepalive
+      - $PWD/conf:/etc/dokeepalive

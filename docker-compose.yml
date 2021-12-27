@@ -7,3 +7,4 @@ services:
     volumes:
       - $PWD/logs:/var/log/dokeepalive
       - $PWD/conf:/etc/dokeepalive
+    restart: always

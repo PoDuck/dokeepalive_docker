@@ -40,18 +40,19 @@ class Site(object):
         self.droplet = self.manager.get_droplet(droplet_id=self.droplet_id)
         self.host = site_data['host']
         self.port = int(site_data['port'])
-        temp = re.compile("([0-9]+)([a-zA-Z]+)")
-        res = temp.match(site_data['interval']).groups()
-        if res[1] == "s":
-            self.interval = timedelta(seconds=int(res[0]))
-        elif res[1] == "m":
-            self.interval = timedelta(minutes=int(res[0]))
-        elif res[1] == "h":
-            self.interval = timedelta(hours=int(res[0]))
-        elif res[1] == "d":
-            self.interval = timedelta(hours=int(res[0]))
-        else:
-            self.interval = timedelta(minutes=5)
+        matches = re.findall("([0-9]+)([a-zA-Z]+)", site_data['interval'], re.DOTALL)
+        self.interval = timedelta(seconds=0)
+        for res in matches:
+            if res[1] == "s":
+                self.interval += timedelta(seconds=int(res[0]))
+            elif res[1] == "m":
+                self.interval += timedelta(minutes=int(res[0]))
+            elif res[1] == "h":
+                self.interval += timedelta(hours=int(res[0]))
+            elif res[1] == "d":
+                self.interval += timedelta(days=int(res[0]))
+            else:
+                self.interval += timedelta(minutes=5)
         self.last_checked = datetime.now() - self.interval
 
     def reboot(self):

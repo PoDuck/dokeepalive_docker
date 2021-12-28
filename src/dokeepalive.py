@@ -18,8 +18,8 @@ def logger_setup(name, log_file, level=logging.INFO):
     return current_logger
 
 
-logger = logger_setup('info_logger', '/var/log/dokeepalive/access.log')
-error_logger = logger_setup('error_logger', '/var/log/dokeepalive/error.log', logging.ERROR)
+logger = logger_setup('info_logger', '/dev/stdout')
+error_logger = logger_setup('error_logger', '/dev/stderr', logging.ERROR)
 
 
 def port_is_open(domain, port):

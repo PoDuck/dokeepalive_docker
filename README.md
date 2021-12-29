@@ -34,6 +34,8 @@ server.
 Intervals take the form `Nu` where `N` is the number, and `u` is the units.  Units can be `s` - seconds, `m` - minutes, `h` -
 hours `d` - days. Multiple sets of units can be used, such as for 1 day 5 hours and 20 minutes `1d5h20m`
 
+This file can be created on the host filesystem by running the `setup.py` file.
+
 4. `docker-compose up -d`
 
 The compose file has the app set to `restart: always`, so it should restart after a reboot of the server. Change or

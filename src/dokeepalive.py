@@ -6,6 +6,7 @@ import socket
 import digitalocean
 import json
 import re
+import setup
 
 
 def logger_setup(name, log_file, level=logging.INFO):

@@ -4,6 +4,9 @@ import os
 import argparse
 
 
+conf_path = os.path.join(os.getcwd(), 'conf')
+
+
 class Config(argparse._AppendAction):
     def __call__(self, parser, namespace, values, option_string):
         droplet_id = values[0]
@@ -63,12 +66,10 @@ def main():
                     )
             else:
                 tokens_finished = True
-    current_dir = os.getcwd()
-    conf_dir = os.path.join(current_dir, 'conf')
-    print(os.path.join(conf_dir, 'dokeepalive.conf'))
-    if not os.path.isdir(conf_dir):
-        os.mkdir(conf_dir, 0o775)
-    with open(os.path.join(conf_dir, 'dokeepalive.conf'), 'w') as conf_file:
+    print(os.path.join(conf_path, 'dokeepalive.conf'))
+    if not os.path.isdir(conf_path):
+        os.mkdir(conf_path, 0o775)
+    with open(os.path.join(conf_path, 'dokeepalive.conf'), 'w') as conf_file:
         json.dump(conf, conf_file, indent=2)
 
 

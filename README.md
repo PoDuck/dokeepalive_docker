@@ -10,6 +10,23 @@ keepalived, just in case the backup server goes down before you notice the main 
 dokeepalive on both servers and keep tabs on the other, it will ensure that your failover server is available in case
 your main server goes down.
 
+If you want to just use the docker image from docker hub, and bypass cloning this repository, you just need to create a
+configuration file as detailed below on your host system, and run:
+
+```commandline
+docker run -itd --mount type=bind,source=$(pwd)/conf,target=/etc/dokeepalive --restart unless-stopped talova/dokeepalive:v0.1
+```
+
+This assumes you have created your config file in a structure such as:
+
+```
+.
+└── conf
+    └── dokeepalive.conf
+```
+
+Make sure you change the `--restart` option to the restart policy you desire if you don't want `unless-stopped`.
+
 ### Simple Setup Instructions:
 
 1. Clone this repository into a folder on your stable server.
@@ -51,7 +68,18 @@ filename for each token (-f) but you can create multiple site (-s) instances on 
 
 run `python config_setup.py --help` for more information on command line arguments.
 
+In order to get your API token, you need to go to your Digitalocean dashboard, click on API, and then click Generate New
+Token. This will bring up a window where you will name your token and choose its scopes (Read/write). Once you click
+generate, you will see the new token with a long code. This will be the only time you can access this code, so copy it
+and keep it somewhere safe.
+
+To get the droplet ID for your host, from the host's command prompt enter:
+
+```commandline
+curl -s http://169.254.169.254/metadata/v1/id
+```
+
 4. `docker-compose up -d`
 
-The compose file has the app set to `restart: always`, so it should restart after a reboot of the server. Change or
-remove that line if you do not want that behavior.
+The compose file has the app set to `restart: unless-stopped`, so it should restart after a reboot of the server. Change
+or remove that line if you do not want that behavior.

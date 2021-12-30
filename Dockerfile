@@ -3,6 +3,7 @@ FROM python:3.8.12 AS builder
 COPY requirements.txt .
 
 # install dependencies
+RUN pip install --upgrade pip
 RUN pip install --user -r requirements.txt
 
 # second stage

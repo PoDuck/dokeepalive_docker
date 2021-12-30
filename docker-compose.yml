@@ -1,9 +1,9 @@
 version: "3.8"
 services:
-  app:
+  dokeepalive:
     build: .
     stdin_open: true
     tty: true
     volumes:
       - $PWD/conf:/etc/dokeepalive
-    restart: always
+    restart: unless-stopped

@@ -6,6 +6,7 @@ import socket
 import digitalocean
 import json
 import re
+from settings import *
 
 
 def logger_setup(name, log_file, level=logging.INFO):
@@ -18,8 +19,8 @@ def logger_setup(name, log_file, level=logging.INFO):
     return current_logger
 
 
-logger = logger_setup('info_logger', '/dev/stdout')
-error_logger = logger_setup('error_logger', '/dev/stderr', logging.ERROR)
+logger = logger_setup('info_logger', access_log_location)
+error_logger = logger_setup('error_logger', error_log_location, logging.ERROR)
 
 
 def port_is_open(domain, port):
@@ -85,12 +86,17 @@ class User(object):
 class UsersAndSites(object):
     def __init__(self):
         self.users = []
-        conf_path = "/etc/dokeepalive/"
+        if not os.path.isdir(conf_path):
+            os.mkdir(conf_path)
         for filename in os.listdir(conf_path):
             with open(os.path.join(conf_path, filename), "r") as config_data:
                 self.apis = json.load(config_data)
             for user in self.apis:
                 self.users.append(User(user))
+        if not self.users:
+            error_logger.error("No configuration file found")
+            print("No configuration file found.")
+            sys.exit(1)
 
     def update(self):
         for user in self.users:

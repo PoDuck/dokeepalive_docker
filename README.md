@@ -46,8 +46,10 @@ This file can be created on the host filesystem by running the `config_setup.py`
 
 The setup file creates a configuration for dokeepalive. You can either run the file with no arguments, and answer the
 questions, or you can pass arguments describing a single API instance with sites from the command line. If you require a
-configuration for multiple API tokens (-t), you must run without arguments, but you can create multiple site (-s)
-instances on the command line.
+configuration for multiple API tokens (-t), you must run without arguments, or run the program multiple times with a new
+filename for each token (-f) but you can create multiple site (-s) instances on the command line.
+
+run `python config_setup.py --help` for more information on command line arguments.
 
 4. `docker-compose up -d`
 
